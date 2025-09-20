@@ -1,0 +1,74 @@
+🧠 API Configuration Guide
+Summary: Rules of Thumb
+1.	Air Quality:
+o	Primary: AirNow / EPA (US), OpenAQ (global)
+o	Fallback: IQAir / AirVisual (paid, global)
+2.	Wildfire/Smoke:
+o	NASA FIRMS, NOAA HYSPLIT, NOAA Smoke/HMS
+3.	Radon (US):
+o	EPA AQS, Radon Zone Maps
+4.	Traffic:
+o	TomTom, HERE (Google Maps = costly/complex)
+5.	Health Sync:
+o	Apple HealthKit (iOS), Health Connect / Google Fit / Fitbit
+6.	AI Assistant:
+•	Google Gemini API (via Firebase AI Logic or server-side SDK)
+📦 Dataset Access Reference
+1.  Air Quality (PM2.5, PM10, O₃, NO₂)
+•	US Primary: AirNow / EPA AQS
+o	API key required (AirNow); AQS is public
+o	JSON format; includes AQI categories
+o	Use lat/lon + NowCast for nearest station
+•	Global Open: OpenAQ
+o	REST API (v3); bulk data via S3
+•	Paid Fallback: IQAir / AirVisual
+•	API key plans; includes forecasts
+Integration Tips:
+•	Query AirNow/AQS first → fallback to OpenAQ/IQAir if no station
+•	Cache responses per location (5–15 min)
+2. 🔥 Wildfire / Smoke Indicators
+•	NASA FIRMS: MODIS/VIIRS fire detections
+•	NOAA HMS / HYSPLIT: Smoke dispersion & forecasting
+Integration Tips:
+•	Combine FIRMS fire points + NOAA smoke models
+•	If both show activity → elevate smoke alert
+3. ☢️ Radon Context (US)
+•	EPA Radon Zone Maps: Lookup by ZIP/county
+•	Outside US: Use geological survey APIs or public studies
+Integration Tips:
+•	Radon = static background context
+•	Display as weekly tile + link to testing resources
+4. 🚗 Traffic Data
+•	TomTom: Reliable, moderate pricing
+•	HERE: Generous free tier
+•	Google Maps: High quality, expensive
+Integration Tips:
+•	Use traffic data to infer NO₂ hotspots
+•	Precompute for saved places; minimize API calls
+5.  Weather Data
+•	OpenWeatherMap: Easy free tier
+•	NOAA / Meteomatics / Weatherbit: Production-grade
+Integration Tips:
+•	Poll hourly; cache results
+•	Normalize units (SI or imperial)
+6.  Health-Synced Data
+•	Apple HealthKit: Local device store; user consent
+•	Google Health Connect / Fit / Fitbit: Cloud access via OAuth
+Auth & Privacy:
+•	Use OAuth2 where needed
+•	Encrypt locally; minimize data storage
+•	Evaluate HIPAA compliance for clinical data
+7. 📍 Location / GPS
+•	Native APIs: iOS CoreLocation / Android FusedLocationProvider
+•	Use coordinates for air/smoke/weather queries
+Integration Tips:
+•	Allow manual pinning + reverse geocoding (TomTom/HERE/Google Places)
+8. 📶 Bluetooth (BLE)
+•	Prefer platform hubs (HealthKit, Health Connect, Fitbit)
+•	If direct BLE: implement BLE Central, subscribe to notifications
+Integration Tips:
+•	BLE = high QA complexity → Tier-3 unless device is owned
+9.   AI API (Gemini API)
+•	Gemini API: Use server-side SDK or Firebase AI Logic
+•	Ideal for interpretation, personalization — not clinical inference
+•	Use the AI for interpretation (one-sentence rationale, personalized tips), not for heavy clinical inference without medical review
