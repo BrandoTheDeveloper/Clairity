@@ -1,0 +1,1 @@
+import React from 'react'; export default function MetricRow({label,value,unit}:{label:string;value?:number|string;unit?:string}){return <div style={{display:'flex',justifyContent:'space-between',margin:'6px 0'}}><strong>{label}</strong><span>{value??'—'} {unit}</span></div>}

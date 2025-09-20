@@ -1,0 +1,13 @@
+.env
+node_modules/
+dist/
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+server/.venv/
+web/node_modules/
+web/dist/
+server/tests/cassettes/*.yaml
+.DS_Store
+Thumbs.db

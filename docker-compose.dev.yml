@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    env_file: .env
+    volumes:
+      - ./server:/app
+    ports:
+      - "5001:5001"
+    depends_on:
+      - redis
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
+    env_file: .env
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api

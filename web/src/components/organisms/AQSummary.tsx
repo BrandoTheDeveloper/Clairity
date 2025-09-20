@@ -1,0 +1,1 @@
+import React from 'react'; import Card from '../atoms/Card'; import MetricRow from '../molecules/MetricRow'; export default function AQSummary({pm25,label,source}:{pm25?:number;label:string;source:string}){return <Card><h3>Air Quality Summary</h3><MetricRow label='PM2.5' value={pm25} unit='μg/m³'/><MetricRow label='Risk' value={label}/><em>Source: {source}</em></Card>}
